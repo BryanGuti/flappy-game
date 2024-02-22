@@ -7,7 +7,7 @@ const game = new Game(canvas, ctx);
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   game.render();
-  requestAnimationFrame(animate);
+  if ( !game.gameOver ) requestAnimationFrame(animate);
 }
 
 function resizeCanvas() {
@@ -18,26 +18,26 @@ function resizeCanvas() {
 
 function mainSetup() {
   resizeCanvas();
-  game.setupBackground('./assets/img/background_single.png')
   animate();
 }
 
 function updateGame(e) {
-  if ((e instanceof KeyboardEvent) && e.code === 'Space') {
-    game.updatePlayerPosition();
-  }
-  if ((e instanceof MouseEvent) && e.button === 0) {
-    game.updatePlayerPosition();
-  }
-  if (e instanceof TouchEvent) {
+  if (
+    ((e instanceof KeyboardEvent) && e.code === 'Space') ||
+    ((e instanceof MouseEvent) && e.button === 0) ||
+    (e instanceof TouchEvent)
+  ) {
     game.updatePlayerPosition();
   }
 }
 
-// Triggers
+// Main triggers
 
 window.addEventListener('load', mainSetup);
 window.addEventListener('resize', resizeCanvas);
+
+// User events
+
 window.addEventListener('keydown', updateGame)
 canvas.addEventListener('mousedown', updateGame);
 canvas.addEventListener('touchstart', updateGame);
