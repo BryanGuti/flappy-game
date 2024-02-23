@@ -15,6 +15,8 @@ export class Game {
     this.obstacleSpacing;
     this.gravity;
     this.speed;
+    this.score;
+    this.gameOver;
   }
 
   createObstacles() {
@@ -43,13 +45,15 @@ export class Game {
     this.obstacles.forEach( obstacle => {
       obstacle.update();
       obstacle.draw();
-    })
+    });
+    this.drawPlayerStatus();
   }
 
   resize() {
     this.ratio = this.canvas.height / this.baseHeight;
     this.gravity = 0.15 * this.ratio;
     this.speed = 3 * this.ratio;
+    this.setupBackground('./assets/img/background_single.png');
     this.background.resize();
     this.player.resize();
     this.obstacleSpacing = 600 * this.ratio;
@@ -57,9 +61,24 @@ export class Game {
     this.obstacles.forEach( obstacle => {
       obstacle.resize();
     });
+    this.score = 0;
+    this.gameOver = false;
+    this.ctx.font = '2rem Bungee';
+    this.ctx.textAlign = 'right';
   }
 
   updatePlayerPosition() {
     this.player.flap();
+  }
+
+  drawPlayerStatus() {
+    this.ctx.fillStyle = 'black';
+    this.ctx.save();
+    this.ctx.fillText(
+      `Score: ${this.score}`,
+      this.canvas.width - 20,
+      30
+    );
+    this.ctx.restore();
   }
 }

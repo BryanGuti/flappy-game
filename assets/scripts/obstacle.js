@@ -28,7 +28,10 @@ export class Obstacle {
       this.game.obstacles = this.game.obstacles.filter( obstacle => {
         return !obstacle.markForDeletion;
       });
+      // Scoring system
+      this.game.score++;
     }
+    if (this.game.obstacles.length <= 0) this.game.gameOver = true;
   }
   draw() {
     this.game.ctx.fillStyle = 'white';
