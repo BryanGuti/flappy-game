@@ -12,11 +12,13 @@ export class Background {
   setupImage(src) {
     this.image.src = src
   }
+
   update(){
     this.positionX -= this.game.speed;
 
     if (this.positionX <= -this.scaleWidth) this.positionX = 0;
   }
+
   draw() {
     this.game.ctx.drawImage(
       this.image,
