@@ -4,9 +4,13 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const game = new Game(canvas, ctx);
 
-function animate() {
+let lastTime = 0;
+
+function animate(timeStamp) {
+  const deltaTime = timeStamp - lastTime;
+  lastTime = timeStamp;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  game.render();
+  game.render(deltaTime);
   if ( !game.gameOver ) requestAnimationFrame(animate);
 }
 
@@ -18,7 +22,8 @@ function resizeCanvas() {
 
 function mainSetup() {
   resizeCanvas();
-  animate();
+  animate(0);
+  // requestAnimationFrame(animate)
 }
 
 function updateGame(e) {
