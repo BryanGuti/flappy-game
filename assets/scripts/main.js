@@ -34,6 +34,15 @@ function updateGame(e) {
   ) {
     game.updatePlayerPosition();
   }
+
+  if (e.key === 'Shift' || e.code === 'KeyC') {
+    game.player.startCharge();
+  }
+
+  if (e instanceof KeyboardEvent && e.type === 'keyup') {
+    game.player.stopCharge();
+  }
+
   if ( e.code === 'KeyR' && game.gameOver) mainSetup();
 }
 
@@ -45,5 +54,6 @@ window.addEventListener('resize', resizeCanvas);
 // User events
 
 window.addEventListener('keydown', updateGame)
+window.addEventListener('keyup', updateGame)
 canvas.addEventListener('mousedown', updateGame);
 canvas.addEventListener('touchstart', updateGame);
