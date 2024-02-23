@@ -16,6 +16,7 @@ export class Game {
     this.gravity;
     this.speed;
     this.score;
+    this.timer;
     this.gameOver;
   }
 
@@ -37,7 +38,8 @@ export class Game {
     this.background.setupImage(src);
   }
 
-  render() {
+  render( deltaTime ) {
+    this.timer += deltaTime;
     this.background.update();
     this.background.draw();
     this.player.update();
@@ -62,6 +64,7 @@ export class Game {
       obstacle.resize();
     });
     this.score = 0;
+    this.timer = 0;
     this.gameOver = false;
     this.ctx.font = '2rem Bungee';
     this.ctx.textAlign = 'right';
@@ -71,12 +74,22 @@ export class Game {
     this.player.flap();
   }
 
+  formatTimer() {
+    return (this.timer * 0.001).toFixed(1);
+  }
+
   drawPlayerStatus() {
-    this.ctx.fillStyle = 'black';
     this.ctx.save();
+    this.ctx.fillStyle = 'black';
     this.ctx.fillText(
       `Score: ${this.score}`,
       this.canvas.width - 20,
+      30
+    );
+    this.ctx.textAlign = 'left';
+    this.ctx.fillText(
+      `Timer: ${this.formatTimer()}`,
+      20,
       30
     );
     this.ctx.restore();

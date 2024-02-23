@@ -33,6 +33,7 @@ export class Obstacle {
     }
     if (this.game.obstacles.length <= 0) this.game.gameOver = true;
   }
+
   draw() {
     this.game.ctx.fillStyle = 'white';
     this.game.ctx.fillRect(this.positionX, this.positionY, this.scaleWidth, this.scaleHeight)
