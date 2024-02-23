@@ -49,10 +49,8 @@ export class Obstacle {
   }
 
   draw() {
-    this.game.ctx.fillStyle = 'white';
-    this.game.ctx.fillRect(this.positionX, this.positionY, this.scaleWidth, this.scaleHeight)
     this.game.ctx.beginPath();
-    this.game.ctx.strokeStyle = 'red';
+    this.game.ctx.strokeStyle = 'white';
     this.game.ctx.arc(this.collisionX, this.collisionY, this.collisionRadius, 0, 2 * Math.PI);
     this.game.ctx.stroke();
     this.game.ctx.closePath();

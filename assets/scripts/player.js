@@ -13,16 +13,13 @@ export class Player {
     this.collisionY;
     this.collisionRadius;
     this.collided;
+    this.energy = 30;
+    this.maxEnergy = this.energy * 2;
+    this.minEnergy = this.energy / 2;
   }
 
   draw() {
-    this.game.ctx.fillStyle = 'blue';
-    this.game.ctx.beginPath();
-    this.game.ctx.fillRect(this.positionX, this.positionY, this.width, this.height);
-    this.game.ctx.fill();
-    this.game.ctx.closePath();
-
-    this.game.ctx.strokeStyle = 'orange';
+    this.game.ctx.strokeStyle = 'black';
     this.game.ctx.beginPath();
     this.game.ctx.arc(this.collisionX, this.collisionY, this.collisionRadius, 0, 2 * Math.PI);
     this.game.ctx.stroke();
@@ -30,6 +27,7 @@ export class Player {
   }
 
   update() {
+    this.handleEnergy();
     this.positionY += this.speedY;
     this.collisionY = this.positionY + (this.height / 2);
 
@@ -60,6 +58,12 @@ export class Player {
     this.collisionX = this.positionX + (this.width / 2);
     this.collisionRadius = this.width / 2;
     this.collided = false;
+  }
+
+  handleEnergy() {
+    if (this.energy < this.maxEnergy) {
+      this.energy += 0.1;
+    }
   }
 
   flap() {
