@@ -11,7 +11,7 @@ function animate(timeStamp) {
   lastTime = timeStamp;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   game.render(deltaTime);
-  if ( !game.gameOver ) requestAnimationFrame(animate);
+  requestAnimationFrame(animate);
 }
 
 function resizeCanvas() {
@@ -34,6 +34,7 @@ function updateGame(e) {
   ) {
     game.updatePlayerPosition();
   }
+  if ( e.code === 'KeyR' && game.gameOver) mainSetup();
 }
 
 // Main triggers

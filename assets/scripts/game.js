@@ -18,6 +18,8 @@ export class Game {
     this.score;
     this.timer;
     this.gameOver;
+    this.message1;
+    this.message2;
   }
 
   createObstacles() {
@@ -34,12 +36,21 @@ export class Game {
     }
   }
 
+  isThereCollision(obstacle, player) {
+    const dx = obstacle.collisionX - player.collisionX;
+    const dy = obstacle.collisionY - player.collisionY;
+    const distance = Math.hypot(dx, dy);
+    const sumOfRadius = obstacle.collisionRadius + player.collisionRadius;
+    return distance <= sumOfRadius;
+  }
+
   setupBackground(src) {
     this.background.setupImage(src);
   }
 
   render( deltaTime ) {
-    this.timer += deltaTime;
+    if (!this.gameOver) this.timer += deltaTime;
+    // this.timer += deltaTime;
     this.background.update();
     this.background.draw();
     this.player.update();
@@ -92,6 +103,37 @@ export class Game {
       20,
       30
     );
+
+    if (this.gameOver) {
+      if (this.player.collided){
+        this.message1 = 'Getting rusty?';
+        this.message2 = `Collision time ${this.formatTimer()} seconds`;
+      } else if (this.obstacles.length <= 0) {
+        this.message1 = 'Nailed it!';
+        this.message2 = `Can you do it faster than ${this.formatTimer()} seconds?`;
+      }
+      this.ctx.font = '5rem Bungee';
+      this.ctx.textAlign = 'center';
+      this.ctx.textBaseline = 'middle';
+      this.ctx.fillText(
+        this.message1,
+        this.canvas.width / 2,
+        (this.canvas.height / 2) - 30
+        );
+        this.ctx.font = '3rem Bungee';
+        this.ctx.fillText(
+          this.message2,
+          this.canvas.width / 2,
+        (this.canvas.height / 2) + 5
+      );
+        this.ctx.font = '2rem Bungee';
+        this.ctx.fillText(
+          'Press \'R\' to try again!',
+          this.canvas.width / 2,
+        (this.canvas.height / 2) + 40
+      );
+    }
+
     this.ctx.restore();
   }
 }
